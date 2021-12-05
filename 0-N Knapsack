@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+vector <long long> size_list;
+vector <long long> value_list;
+
+long long check (long long s){
+    long long n = value_list.size();
+    vector <long long> dp;
+    dp.reserve(s+1);
+    dp[0]=0;
+
+    for(long long i=1; i<=s; ++i){
+        dp[i]=0;
+        for (long long j=0; j<=n ; ++j){
+			if(size_list[j]<=i)
+            dp[i] = max(dp[i], (dp[i-size_list[j]]+value_list[j]));
+        }
+    }
+    return dp[s];
+}
+
+int main (){
+    long long n, s;
+    cin >> n >> s;
+    size_list.reserve(n);
+    value_list.reserve(n);
+    
+    for (long long i=0; i<n; i++){
+        long long d;
+        cin>>d;
+        size_list.push_back(d);
+    }
+    for (long long i=0; i<n; i++){
+        long long d;
+        cin>>d;
+        value_list.push_back(d);
+    }
+    cout <<check (s)<<endl;
+    return 0;
+}
